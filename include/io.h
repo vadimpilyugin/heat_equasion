@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <fstream>
 
-#include "matrix.h"
-
-Matrix<float> load_matrix(std::string path);
-void write_matrix(Matrix<float> res, std::string path);
+vector<float> load_data(std::string path);
+void put_line(vector<float> res, std::ofstream &out);

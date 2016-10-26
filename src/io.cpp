@@ -1,11 +1,10 @@
 #include <string>
 #include <stdio.h>
 #include <fstream>
+#include <vector>
 using namespace std;
 
-#include "matrix.h"
-
-Matrix<float> load_matrix(string path)
+vector<float> load_data(string path)
 {
 	ifstream f(path);
 	if(!f.is_open())
@@ -13,29 +12,23 @@ Matrix<float> load_matrix(string path)
 		fprintf(stderr, "Could not open file: %s\n", path.c_str());
 		throw -1;
 	}
-	int m = 0, n = 0;
-	f >> m >> n;
-	Matrix<float> res(m,n);
+	int m = -1;
+	f >> m;
+	vector<float> res(m);
 	for(int i = 0; i < m; i++)
-		for(int j = 0; j < n; j++)
-			f >> res(i,j);
+		f >> res[i];
 	return res;
 }
 
-void write_matrix(Matrix<float> res, string path)
+void put_line(vector<float> res, ofstream &f)
 {
-	ofstream f(path);
 	if(!f.is_open())
 	{
-		fprintf(stderr, "Could not open file: %s\n", path.c_str());
+		fprintf(stderr, "Could not open output file\n");
 		throw -1;
 	}
-	int m = res.n_rows, n = res.n_cols;
-	f << m << " " << n << "\n";
+	int m = res.size();
 	for(int i = 0; i < m; i++)
-	{
-		for(int j = 0; j < n; j++)
-			f << res(i,j) << " ";
-		f << "\n";
-	}	
+		f << res[i] << " ";
+	f << "\n";
 }

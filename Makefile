@@ -49,11 +49,12 @@ endif
 
 # deps.mk contains redirect to dependency generation
 deps.mk: 
-	mkdir -p $(OBJ_DIR) $(BIN_DIR) $(DEP_DIR)
+	mkdir -p $(BUILD_DIR) $(OBJ_DIR) $(BIN_DIR) $(DEP_DIR)
+	mkdir -p ./data/result
 	echo '-include $(call src_to_dep, $(CXXFILES))' >deps.mk
 
 # Rules for compiling targets
-$(BIN_DIR)/solve: $(OBJ_DIR)/solve.o $(OBJ_DIR)/io.o
+$(BIN_DIR)/solve: $(OBJ_DIR)/solve.o $(OBJ_DIR)/io.o $(OBJ_DIR)/params.o
 	$(CXX) $(CXXFLAGS) $(filter %.o, $^) -o $@ $(LDFLAGS)
 
 $(BIN_DIR)/matrix_example: $(OBJ_DIR)/matrix_example.o $(OBJ_DIR)/io.o
@@ -72,6 +73,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 # Delete all temprorary and binary files
 clean:
 	rm -rf $(BUILD_DIR)
+	rm -rf data/result
+	rm -f deps.mk
 
 # Additional targers for testing purposes
 
