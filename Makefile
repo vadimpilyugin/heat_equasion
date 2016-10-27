@@ -54,7 +54,7 @@ deps.mk:
 	echo '-include $(call src_to_dep, $(CXXFILES))' >deps.mk
 
 # Rules for compiling targets
-$(BIN_DIR)/solve: $(OBJ_DIR)/solve.o $(OBJ_DIR)/io.o $(OBJ_DIR)/params.o
+$(BIN_DIR)/solve: $(OBJ_DIR)/solve.o $(OBJ_DIR)/io.o
 	$(CXX) $(CXXFLAGS) $(filter %.o, $^) -o $@ $(LDFLAGS)
 
 $(BIN_DIR)/matrix_example: $(OBJ_DIR)/matrix_example.o $(OBJ_DIR)/io.o

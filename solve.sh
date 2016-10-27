@@ -14,22 +14,8 @@ source ./config.cfg
 
 # Программируем программу выдачи граничных значений и параметров
 cat <<Input >${INCLUDE}/params.h
-extern const int border_type;
-extern const float D;
-extern const int method;
-extern const float time_bottom;
-extern const float dt;
-extern const float x_left;
-extern const float x_right;
-extern const int x_steps;
-float left_border(float t);
-float right_border(float t);
-float start_conditions(float x);
-float source_func(float x, float t);
-Input
-cat <<Input >${SRC}/params.cpp
+#pragma once
 #include <cmath>
-#include "params.h"
 const int border_type = $border_type;
 const float D = $D;
 const int method = $method;
@@ -74,4 +60,6 @@ if [ "$mainmenuinput" = "q" ]; then
 	kill -9 $pid1
 	kill -9 $pid2
 	echo
+	echo "Process killed: $pid1"
+	echo "Process killed: $pid2"
 fi
