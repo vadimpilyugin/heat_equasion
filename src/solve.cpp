@@ -71,7 +71,6 @@ int main(int argc, char **argv)
 	float dx = (x_right - x_left)/(x_steps - 1);
 	for(int i = 0; i < x_steps; i++)
 		input[i] = start_conditions(x_left + (i-1)*dx);
-	
 	// Решение
 	float C = 2*D*dt/(dx*dx);
 	vector<float> last(x_steps), next(x_steps);
@@ -80,8 +79,11 @@ int main(int argc, char **argv)
 	{
 		if(C>1)
 		{
-			printf("dt = %f, dx = %f, C = %f\n", dt, dx, C);
-			printf("Решение неустойчиво! Уменьшите шаг по времени или увеличьте по пространству!\n");
+			fprintf(stderr, "dt = %f, dx = %f, C = %f\n", dt, dx, C);
+			fprintf(stderr, "Решение неустойчиво! Уменьшите шаг по времени или увеличьте по пространству!\n");
+			//dt = (dx*dx)/(4*D);
+			//C = 2*D*dt/(dx*dx);
+			//fprintf(stderr, "Выставлено рекомендуемое значение dt = %f, C = %f\n", dt, C);
 			//exit(1);
 		}
 		for(int n = 2; true; n++) // пока скрипт не пошлет SIGKILL
@@ -100,7 +102,8 @@ int main(int argc, char **argv)
 			}
 			put_line(next, output);
 			last=next;
-			unsigned int microseconds = 1000;
+			//printf("line = %d\n", n);
+			unsigned int microseconds = 10000;
 			usleep(microseconds);
 		}
 	}
@@ -111,7 +114,7 @@ int main(int argc, char **argv)
 			triag_matrix_alg(last, next, dt, dx, n, C);
 			put_line(next, output);
 			last=next;
-			unsigned int microseconds = 1000;
+			unsigned int microseconds = 10000;
 			usleep(microseconds);
 		}
 	}
