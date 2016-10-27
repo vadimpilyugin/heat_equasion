@@ -46,13 +46,13 @@ Input
 make all 1>/dev/null
 ${BIN_DIR}/solve $output_file & 1>/dev/null
 pid1=$(echo $!)
-echo "Solve process started: pid=$pid1"
+printf "Solve process started:\tpid=$pid1\n"
 sleep 1
 
 # Построение графика решения
-./plot.py $output_file & 2>/dev/null 1>/dev/null
+./expplot.py $output_file & 2>/dev/null 1>/dev/null
 pid2=$(echo $!)
-echo "Plot process started: pid=$pid2"
+printf "Plot process started:\tpid=$pid2\n"
 
 # Завершение программы
 read -n 1 -p "Press q to stop..." mainmenuinput
@@ -60,6 +60,6 @@ if [ "$mainmenuinput" = "q" ]; then
 	kill -9 $pid1
 	kill -9 $pid2
 	echo
-	echo "Process killed: $pid1"
-	echo "Process killed: $pid2"
+	printf "Process killed:\t$pid1\n"
+	printf "Process killed:\t$pid2\n"
 fi

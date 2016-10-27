@@ -75,6 +75,7 @@ clean:
 	rm -rf $(BUILD_DIR)
 	rm -rf data/result
 	rm -f deps.mk
+	rm -f include/params.h
 
 # Additional targers for testing purposes
 

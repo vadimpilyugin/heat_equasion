@@ -17,9 +17,43 @@ int stoi(const char *s)
 	return a;
 }
 
-vector<float> triag_matrix_alg(vector<float> last)
+void triag_matrix_alg(vector<float> last, vector<float> &next, float dt, float dx, int n, float C)
 {
-	return last;
+	int x_steps = last.size();
+	float a = C/2, g = C/2;
+	float b = 1+C;
+	float d = 0;
+	
+	// Прямой ход
+	vector<float> p(x_steps - 1), q(x_steps - 1); // прогоночные коэффициенты
+	if(border_type == 1)
+	{
+		p[0]=0;
+		q[0]=left_border(time_bottom + (n-1)*dt);
+	}
+	else if(border_type == 2)
+	{
+		p[0]=1;
+		q[0]=-left_border(time_bottom + (n-1)*dt);
+	}
+	for(int i = 1; i < x_steps-1; i++)
+	{
+		d = -last[i] - dt*source_func(x_left + dx*i, time_bottom + (n-1)*dt);
+		p[i] = g/(b-a*p[i-1]);
+		q[i] = (a*q[i-1]-d)/(b-a*p[i-1]);
+	}
+	
+	// Обратный ход
+	if(border_type == 1)
+	{
+		next[x_steps-1] = right_border(time_bottom + (n-1)*dt);
+	}
+	else if(border_type == 2)
+	{
+		next[x_steps-1] = (q[x_steps-2] + right_border(time_bottom + (n-1)*dt)*dx)/(1-p[x_steps-2]);
+	}
+	for(int i = x_steps-2; i >= 0; i--)
+		next[i] = p[i]*next[i+1] + q[i];
 }
 
 int main(int argc, char **argv)
@@ -74,7 +108,7 @@ int main(int argc, char **argv)
 	{
 		for(int n = 2; true; n++)
 		{
-			next = triag_matrix_alg(last);
+			triag_matrix_alg(last, next, dt, dx, n, C);
 			put_line(next, output);
 			last=next;
 			unsigned int microseconds = 1000;
