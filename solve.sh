@@ -20,7 +20,7 @@ const int border_type = $border_type;
 const float D = $D;
 const int method = $method;
 const float time_bottom = $time_bottom;
-const float dt = $dt;
+float dt = $dt;
 const float x_left = $x_left;
 const float x_right = $x_right;
 const int x_steps = $x_steps;
@@ -44,7 +44,7 @@ Input
 
 # Компиляция и запуск программы
 make all 1>/dev/null
-${BIN_DIR}/solve $output_file & 1>/dev/null
+${BIN_DIR}/solve $output_file & #1>/dev/null
 pid1=$(echo $!)
 printf "Solve process started:\tpid=$pid1\n"
 sleep 1
