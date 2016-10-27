@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <unistd.h>
 using namespace std;
 
 #include "io.h"
@@ -28,7 +29,6 @@ int main(int argc, char **argv)
 	// Загрузка данных
 	ofstream output(argv[1], ios_base::trunc);
 	vector<float> input(x_steps);
-	float dt = (time_top - time_bottom)/(time_steps - 1);
 	float dx = (x_right - x_left)/(x_steps - 1);
 	for(int i = 0; i < x_steps; i++)
 		input[i] = start_conditions(x_left + (i-1)*dx);
@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 		}
 		vector<float> last(x_steps), next(x_steps);
 		last = input;
-		for(int n = 2; n < time_steps; n++)
+		for(int n = 2; true; n++)
 		{
 			for(int i = 1; i < x_steps-1; i++)
 				next[i] = C/2*(last[i-1]-2*last[i]+last[i+1]) + dt*source_func(x_left + (n-1)*dx, time_bottom + (n-1)*dt) + last[i];
@@ -61,6 +61,8 @@ int main(int argc, char **argv)
 			}
 			put_line(next, output);
 			last=next;
+			unsigned int microseconds = 1000;
+			usleep(microseconds);
 		}
 	}
 	else if(method == 2)

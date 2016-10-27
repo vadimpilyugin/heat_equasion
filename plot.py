@@ -8,7 +8,6 @@ import ConfigParser
 import StringIO
 import sys
 
-print "Hello!"
 with open("config.cfg", 'r') as f:
     config_string = '[section]\n' + f.read()
 config = ConfigParser.ConfigParser()

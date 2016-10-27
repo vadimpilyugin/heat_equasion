@@ -18,8 +18,7 @@ extern const int border_type;
 extern const float D;
 extern const int method;
 extern const float time_bottom;
-extern const float time_top;
-extern const int time_steps;
+extern const float dt;
 extern const float x_left;
 extern const float x_right;
 extern const int x_steps;
@@ -35,8 +34,7 @@ const int border_type = $border_type;
 const float D = $D;
 const int method = $method;
 const float time_bottom = $time_bottom;
-const float time_top = $time_top;
-const int time_steps = $time_steps;
+const float dt = $dt;
 const float x_left = $x_left;
 const float x_right = $x_right;
 const int x_steps = $x_steps;
@@ -59,8 +57,21 @@ float source_func(float x, float t)
 Input
 
 # Компиляция и запуск программы
-make all
-${BIN_DIR}/solve $output_file
+make all 1>/dev/null
+${BIN_DIR}/solve $output_file & 1>/dev/null
+pid1=$(echo $!)
+echo "Solve process started: pid=$pid1"
+sleep 1
 
 # Построение графика решения
-./plot.py $output_file
+./plot.py $output_file & 2>/dev/null 1>/dev/null
+pid2=$(echo $!)
+echo "Plot process started: pid=$pid2"
+
+# Завершение программы
+read -n 1 -p "Press q to stop..." mainmenuinput
+if [ "$mainmenuinput" = "q" ]; then
+	kill -9 $pid1
+	kill -9 $pid2
+	echo
+fi
