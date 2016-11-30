@@ -70,7 +70,7 @@ int main(int argc, char **argv)
 	vector<float> input(x_steps);
 	float dx = (x_right - x_left)/(x_steps - 1);
 	for(int i = 0; i < x_steps; i++)
-		input[i] = start_conditions(x_left + (i-1)*dx);
+		input[i] = start_conditions(x_left + i*dx);
 	// Решение
 	float C = 2*D*dt/(dx*dx);
 	vector<float> last(x_steps), next(x_steps);

@@ -55,11 +55,11 @@ pid2=$(echo $!)
 printf "Plot process started:\tpid=$pid2\n"
 
 # Завершение программы
-read -n 1 -p "Press q to stop..." mainmenuinput
-if [ "$mainmenuinput" = "q" ]; then
+read -n 1 -p "Press key to stop..." mainmenuinput
+#if [ "$mainmenuinput" = "q" ]; then
 	kill -9 $pid1
 	kill -9 $pid2
 	echo
 	printf "Process killed:\t$pid1\n"
 	printf "Process killed:\t$pid2\n"
-fi
+#fi
