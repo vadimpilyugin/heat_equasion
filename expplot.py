@@ -17,6 +17,7 @@ config.readfp(buf)
 x_left = config.getfloat('section', 'x_left')
 x_right = config.getfloat('section', 'x_right')
 x_steps = config.getfloat('section', 'x_steps')
+time_step = config.getfloat('section', 'dt')
 
 f = open(sys.argv[1], 'r')
 line = f.readline()
@@ -31,6 +32,11 @@ plt.ion()
 fig = plt.figure()
 ax = fig.add_subplot(111)
 line1, = ax.plot(xnew, ynew, 'r-') # Returns a tuple of line objects, thus the comma
+ax.axhline(y=0, color='k')
+ax.axvline(x=0, color='k')
+plt.xlabel('x', fontsize=18)
+plt.ylabel('y', fontsize=16)
+ax.grid(True, which='both')
 
 while 1:
     where = f.tell()
@@ -43,4 +49,5 @@ while 1:
 		line1.set_ydata(spline(x,y,xnew))
 		pylab.axis([x_left,x_right,-20,20])
 		fig.canvas.draw()
+		# time.sleep(time_step)
 plt.close()
