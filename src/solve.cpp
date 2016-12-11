@@ -34,7 +34,7 @@ void triag_matrix_alg(vector<float> last, vector<float> &next, float dt, float d
 	else if(border_type == 2)
 	{
 		p[0]=1;
-		q[0]=-left_border(time_bottom + (n-1)*dt);
+		q[0]=-left_border(time_bottom + (n-1)*dt) * dx;
 	}
 	for(int i = 1; i < x_steps-1; i++)
 	{
